@@ -1,0 +1,95 @@
+Enter the number of players in this tournament :  Enter name of player 1 : Enter name of player 2 : Enter name of player 3 : Enter name of player 4 : List of  Players in this tournament: 
+id: 1  name:   p1
+id: 2  name:   p2
+id: 3  name:   p3
+id: 4  name:   p4
+
+==================
+p1  rolls: 6
+p2  rolls: 3
+p1 wins this round!
+Score: p1 = 1, p2 = 0
+
+p1  rolls: 1
+p2  rolls: 3
+p2 wins this round!
+Score: p1 = 1, p2 = 1
+
+p1  rolls: 5
+p2  rolls: 6
+p2 wins this round!
+Score: p1 = 1, p2 = 2
+
+p1  rolls: 1
+p2  rolls: 3
+p2 wins this round!
+Score: p1 = 1, p2 = 3
+
+p2 wins the game!
+Player with id : 2 and name :  p2  is win.
+p3  rolls: 3
+p4  rolls: 5
+p4 wins this round!
+Score: p3 = 0, p4 = 1
+
+p3  rolls: 2
+p4  rolls: 1
+p3 wins this round!
+Score: p3 = 1, p4 = 1
+
+p3  rolls: 3
+p4  rolls: 1
+p3 wins this round!
+Score: p3 = 2, p4 = 1
+
+p3  rolls: 4
+p4  rolls: 6
+p4 wins this round!
+Score: p3 = 2, p4 = 2
+
+p3  rolls: 3
+p4  rolls: 1
+p3 wins this round!
+Score: p3 = 3, p4 = 2
+
+p3 wins the game!
+Player with id : 3 and name :  p3  is win.
+
+==================
+p2  rolls: 3
+p3  rolls: 6
+p3 wins this round!
+Score: p2 = 0, p3 = 1
+
+p2  rolls: 3
+p3  rolls: 3
+It's a tie!
+Score: p2 = 0, p3 = 1
+
+p2  rolls: 5
+p3  rolls: 5
+It's a tie!
+Score: p2 = 0, p3 = 1
+
+p2  rolls: 4
+p3  rolls: 1
+p2 wins this round!
+Score: p2 = 1, p3 = 1
+
+p2  rolls: 1
+p3  rolls: 1
+It's a tie!
+Score: p2 = 1, p3 = 1
+
+p2  rolls: 1
+p3  rolls: 3
+p3 wins this round!
+Score: p2 = 1, p3 = 2
+
+p2  rolls: 3
+p3  rolls: 4
+p3 wins this round!
+Score: p2 = 1, p3 = 3
+
+p3 wins the game!
+Player with id : 3 and name :  p3  is win the tournament.
