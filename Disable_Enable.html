@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <label for="numberofplayers">Number of Players</label><br>
+    <select id="numberofplayers" name="numberofplayers">
+        <option value="4">4 Players</option>
+        <option value="8">8 Players</option>
+        <option value="16">16 Players</option>
+    </select><br><br>
+    <label for="start_date">Start Date</label><br>
+    <input type="date" id="start_date" name="start_date"><br><br>
+    <button type="button" class="btn btn-primary" onclick="Test()">Test</button>
+</body>
+<script>
+    function toggleStartDate() {
+            var numberOfPlayers = document.getElementById("numberofplayers").value;
+            var startDateInput = document.getElementById("start_date");
+            
+            if (numberOfPlayers == "4") {
+                startDateInput.disabled = true;
+            } else {
+                startDateInput.disabled = false;
+            }
+        }
+        window.onload = function() {
+            document.getElementById("numberofplayers").addEventListener("change", toggleStartDate);
+            toggleStartDate(); // Initialize on page load
+        };
+</script>
+</html>

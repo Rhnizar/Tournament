@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tournament</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script>
+        function updateStageFields() {
+            const numPlayers = parseInt(document.getElementById('num_players').value);
+            const stagesContainer = document.getElementById('stages-container');
+            stagesContainer.innerHTML = '';
+
+            let stages = [];
+            if (numPlayers === 4) stages = ['Semifinals', 'Final'];
+            else if (numPlayers === 8) stages = ['Quarterfinals', 'Semifinals', 'Final'];
+            else if (numPlayers === 16) stages = ['Round of 16', 'Quarterfinals', 'Semifinals', 'Final'];
+
+            stages.forEach((stage) => {
+                stagesContainer.innerHTML += `
+                    <div class="form-group">
+                        <label for="${stage.toLowerCase().replace(/ /g, '_')}_date">${stage} Date</label>
+                        <input type="date" class="form-control" id="${stage.toLowerCase().replace(/ /g, '_')}_date" name="${stage.toLowerCase().replace(/ /g, '_')}_date">
+                    </div>
+                `;
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Create Tournament</h1>
+        <form action="/create_tournament/" method="POST">
+            <!-- CSRF Token for Django security -->
+            <!-- {% csrf_token %} -->
+            <div class="form-group">
+                <label for="name">Tournament Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+                <label for="num_players">Number of Players</label>
+                <select class="form-control" id="num_players" name="numberofplayers" required onchange="updateStageFields()">
+                    <option value="4">4 Players</option>
+                    <option value="8">8 Players</option>
+                    <option value="16">16 Players</option>
+                </select>
+                <!-- <input type="number" class="form-control" id="num_players" name="num_players" required oninput="updateStageFields()"> -->
+                
+            </div>
+            
+            <div id="stages-container"></div>
+
+            <button type="submit" class="btn btn-primary">Create Tournament</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tournament</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Create Tournament</h1>
+        <form action="/create_tournament/" method="POST">
+            <!-- CSRF Token for Django security -->
+            <!-- {% csrf_token %} -->
+            <div class="form-group">
+                <label for="name">Tournament Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Tournament Name" required>
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="numberofplayers">Number of Players</label>
+                <select class="form-control" id="numberofplayers" name="numberofplayers" required>
+                    <option value="4">4 Players</option>
+                    <option value="8">8 Players</option>
+                    <option value="16">16 Players</option>
+                </select>
+            </div>
+
+            <h2 class="my-4">Stages</h2>
+
+            <div class="form-group">
+                <label for="roundof16_date">Round Of 16 Date</label>
+                <input type="date" class="form-control" id="roundof16_date" name="roundof16_date" required>
+            </div>
+            <div class="form-group">
+                <label for="quarterfinals_date">Quarterfinals Date</label>
+                <input type="date" class="form-control" id="quarterfinals_date" name="quarterfinals_date" required>
+            </div>
+            <div class="form-group">
+                <label for="semifinals_date">Semifinals Date</label>
+                <input type="date" class="form-control" id="semifinals_date" name="semifinals_date" required>
+            </div>
+            <div class="form-group">
+                <label for="final_date">Final Date</label>
+                <input type="date" class="form-control" id="final_date" name="final_date" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Tournament</button>
+        </form>
+        <br>
+        <button type="button" class="btn btn-primary" onclick="Test()">Test</button>
+    </div>
+</body>
+<script>
+
+    function toggleDates() {
+            const numberOfPlayers = document.getElementById("numberofplayers").value;
+            const start_date = document.getElementById("start_date").value;
+            const end_date = document.getElementById("end_date").value;
+            var roundof16_date = document.getElementById("roundof16_date");
+            var quarterfinals_date = document.getElementById("quarterfinals_date");
+            var semifinals_date = document.getElementById("semifinals_date");
+            var final_date = document.getElementById("final_date");
+            
+            if (numberOfPlayers == "4") {
+                roundof16_date.disabled = true;
+                quarterfinals_date.disabled = true;
+                semifinals_date.value = start_date;
+                final_date.value = end_date;
+            } else if (numberOfPlayers == "8") {
+                roundof16_date.disabled = true;
+                quarterfinals_date.disabled = false;
+                quarterfinals_date.value = start_date;
+                final_date.value = end_date;
+            } else {
+                roundof16_date.disabled = false;
+                quarterfinals_date.disabled = false;
+                roundof16_date.value = start_date;
+                final_date.value = end_date;
+            }
+        }
+        window.onload = function() {
+            document.getElementById("numberofplayers").addEventListener("change", toggleDates);
+            toggleDates(); // Initialize on page load
+        };
+
+    function Test()
+    {
+        document.getElementById("qualifiers_date").disabled;
+        console.log(document.getElementById("qualifiers_date").value);
+        // alert("Test");
+    }
+</script>
+</html>

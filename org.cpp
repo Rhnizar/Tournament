@@ -93,9 +93,10 @@ int main() {
 
     tournament(players);
 
-    for (Player* player : players) {
-        delete player;
-    }
-
+    // for (Player* player : players) {
+    //     delete player;
+    // }
+    for(size_t i=0; i<players.size(); i++)
+        delete players[i];
     return 0;
 }
