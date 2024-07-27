@@ -5,48 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Tournament</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script>
-        function updateStageFields() {
-            const numPlayers = parseInt(document.getElementById('num_players').value);
-            const stagesContainer = document.getElementById('stages-container');
-            stagesContainer.innerHTML = '';
-
-            let stages = [];
-            if (numPlayers === 4) stages = ['Semifinals', 'Final'];
-            else if (numPlayers === 8) stages = ['Quarterfinals', 'Semifinals', 'Final'];
-            else if (numPlayers === 16) stages = ['Round of 16', 'Quarterfinals', 'Semifinals', 'Final'];
-
-            stages.forEach((stage) => {
-                stagesContainer.innerHTML += `
-                    <div class="form-group">
-                        <label for="${stage.toLowerCase().replace(/ /g, '_')}_date">${stage} Date</label>
-                        <input type="date" class="form-control" id="${stage.toLowerCase().replace(/ /g, '_')}_date" name="${stage.toLowerCase().replace(/ /g, '_')}_date">
-                    </div>
-                `;
-            });
-
-            // stagesContainer.innerHTML += `
-            //     <button type="submit" class="btn btn-success" onclick=Create_Stages()>Add Stages Of Tournament</button><br><hr>`;
-        }
-        function Create_Stages()
-        {
-            alert("Yees");
-        }
-        function Create_Tournament()
-        {
-            alert("Tournament");
-        }
-    </script>
 </head>
 <body>
     <div class="container">
         <h1 class="my-4">Create Tournament</h1>
-        <form action="/create_tournament/" method="POST">
+        <!-- <form action="/create_tournament/" method="POST"> -->
             <!-- CSRF Token for Django security -->
             <!-- {% csrf_token %} -->
             <div class="form-group">
                 <label for="name">Tournament Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Tournament name" required>
             </div>
             <div class="form-group">
                 <label for="start_date">Start Date</label>
@@ -70,7 +38,94 @@
             <div id="stages-container"></div>
 
             <button type="submit" class="btn btn-primary" onclick="Create_Tournament()">Create Tournament</button>
-        </form>
+            <button type="submit" class="btn btn-primary" onclick="List_Tournament()">List Tournament</button>
+        <!-- </form> -->
     </div>
+    <script>
+        let stages = [];
+        function updateStageFields() {
+            const numPlayers = parseInt(document.getElementById('num_players').value);
+            const stagesContainer = document.getElementById('stages-container');
+            stagesContainer.innerHTML = '';
+
+            
+            if (numPlayers === 4) stages = ['Semifinals', 'Final'];
+            else if (numPlayers === 8) stages = ['Quarterfinals', 'Semifinals', 'Final'];
+            else if (numPlayers === 16) stages = ['Round of 16', 'Quarterfinals', 'Semifinals', 'Final'];
+
+            stages.forEach((stage) => {
+                stagesContainer.innerHTML += `
+                    <div class="form-group">
+                        <label for="${stage.toLowerCase().replace(/ /g, '_')}_date">${stage} Date</label>
+                        <input type="date" class="form-control" id="${stage}" name="${stage.toLowerCase().replace(/ /g, '_')}_date">
+                    </div>
+                `;
+                // console.log(stage);
+            });
+            // console.log("Teeeest\n");
+            // console.log(stage);
+        }
+        function Create_Stages()
+        {
+            alert("Yees");
+        }
+
+        const apiUrl = 'http://127.0.0.1:8000/Tournament/';
+        async function List_Tournament()
+        {
+            try {
+                const List_Tournament = "List_Tournament/";
+                const response = await fetch(`${apiUrl}${List_Tournament}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error of tournament list: ', error);
+            }
+        }
+        async function Create_Tournament()
+        {
+            try {
+                const name = document.getElementById("name").value;
+                const start_date = document.getElementById("start_date").value;
+                const end_date = document.getElementById("end_date").value;
+                const num_players = document.getElementById("num_players").value;
+                const Stages = [];
+                stages.forEach((stage) => {
+                    const Stage = {
+                        stage_type: stage,
+                        date: document.getElementById(stage).value
+                    }
+                    Stages.push(Stage);
+                });
+
+                const Tournament = {
+                    name: name,
+                    start_date: start_date,
+                    end_date: end_date,
+                    num_players: num_players,
+                    stages: Stages
+                }
+                const create_tournament = "create_tournament/"
+                const response = await fetch(`${apiUrl}${create_tournament}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Tournament),
+                });
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+                // console.log(JSON.stringify(Tournament, null, 2));
+            } catch(error) {
+                console.error('Error creating Tournament: ', error);
+            } 
+        }
+    </script>
 </body>
 </html>

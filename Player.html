@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Player</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Create Player</h1>
+        <div class="form-group">
+            <label for="name">Player Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Player name">
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="Create_Player()">Create Player</button>
+        <hr>
+        <button type="submit" class="btn btn-primary" onclick="List_Players()">List Players</button>
+    </div>
+    <script>
+        const apiUrl = 'http://127.0.0.1:8000/Tournament/';
+        async function List_Players()
+        {
+            try {
+                const List_Players = "List_Players/";
+                const response = await fetch(`${apiUrl}${List_Players}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error to list players: ', error);
+            }
+        }
+        async function Create_Player()
+        {
+            try {
+                const create_player = "create_player/";
+                const name = document.getElementById("name").value;
+                const player = {
+                    name: name
+                }
+                const response = await fetch(`${apiUrl}${create_player}`, {
+                    method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(player),
+                });
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(data);
+            } catch(error) {
+                console.error('Error creating Player: ', error);
+            }
+        }
+    </script>
+</body>
+
+</html>
