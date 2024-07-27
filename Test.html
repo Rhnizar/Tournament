@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tournament</title>
+</head>
+<body>
+    <h1>Create Tournament</h1>
+    <form method="post" action="/create_tournament/">
+        <!-- {% csrf_token %} -->
+        <label for="name">Tournament Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required><br><br>
+        
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required><br><br>
+        
+        <label for="num_players">Number of Players:</label>
+        <select id="num_players" name="num_players" required>
+            <option value="4">4 Players</option>
+            <option value="8">8 Players</option>
+            <option value="16">16 Players</option>
+        </select><br><br>
+
+        <h2>Stages</h2>
+        
+        <div id="stages-container">
+            <!-- Stage template -->
+            <div class="stage">
+                <label>Stage Type:</label>
+                <select name="stages[0][stage_type]" required>
+                    <option value="ROUND_16">Round of 16</option>
+                    <option value="QUARTERFINALS">Quarterfinals</option>
+                    <option value="SEMIFINALS">Semifinals</option>
+                    <option value="FINAL">Final</option>
+                </select><br><br>
+
+                <label>Date:</label>
+                <input type="date" name="stages[0][date]" required><br><br>
+
+                <label>Ready to Play:</label>
+                <input type="checkbox" name="stages[0][ready_to_play]"><br><br>
+            </div>
+        </div>
+        
+        <button type="button" onclick="addStage()">Add Another Stage</button><br><br>
+
+        <button type="submit">Create Tournament</button>
+    </form>
+
+    <script>
+        let stageCount = 1;
+
+        function addStage() {
+            const container = document.getElementById('stages-container');
+            const stageDiv = document.createElement('div');
+            stageDiv.classList.add('stage');
+            stageDiv.innerHTML = `
+                <label>Stage Type:</label>
+                <select name="stages[${stageCount}][stage_type]" required>
+                    <option value="ROUND_16">Round of 16</option>
+                    <option value="QUARTERFINALS">Quarterfinals</option>
+                    <option value="SEMIFINALS">Semifinals</option>
+                    <option value="FINAL">Final</option>
+                </select><br><br>
+
+                <label>Date:</label>
+                <input type="date" name="stages[${stageCount}][date]" required><br><br>
+
+                <label>Ready to Play:</label>
+                <input type="checkbox" name="stages[${stageCount}][ready_to_play]"><br><br>
+            `;
+            container.appendChild(stageDiv);
+            stageCount++;
+        }
+    </script>
+</body>
+</html>
