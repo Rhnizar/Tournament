@@ -39,6 +39,9 @@
             margin-top: 30px;
             color: #333;
         }
+        .date {
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -55,9 +58,43 @@
         <h1 id="result2" class="result"></h1>
     </div>
     <div class="game-message" id="gameMessage"></div>
+
+    <div class="dice-container">
+        <button type="button" class="btn btn-info" onclick="ShowDateTime()">ShowDateTime</button>
+        <h1 id="date" class="date"></h1>
+    </div>
     <script>
         var num1 = 0;
         var num2 = 0;
+        function ShowDateTime()
+        {
+            let targetDate = new Date(2024, 6, 28, 19, 0, 0);
+            let date = new Date()
+            if (
+                currentDate.getFullYear() === targetDate.getFullYear() &&
+                currentDate.getMonth() === targetDate.getMonth() &&
+                currentDate.getDate() === targetDate.getDate() &&
+                currentDate.getHours() === targetDate.getHours() &&
+                currentDate.getMinutes() === targetDate.getMinutes() &&
+                currentDate.getSeconds() === targetDate.getSeconds()
+                ) {
+                    console.log("The date and time are exactly 2024-07-28 19:00:00");
+                } else {
+                    console.log("The date and time are not 2024-07-28 19:00:00");
+                }
+
+
+            let year = date.getFullYear();
+            let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            let day = String(date.getDate()).padStart(2, '0');
+            let hours = String(date.getHours()).padStart(2, '0');
+            let minutes = String(date.getMinutes()).padStart(2, '0');
+            let seconds = String(date.getSeconds()).padStart(2, '0');
+
+            let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('date').innerText = formattedDate;
+        }
         function playDice(diceId, resultId) {
             if (num1 == 0 && resultId == "result2")
             {
