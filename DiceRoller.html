@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .dice-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .dice {
+            width: 100px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .result {
+            color: red;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .game-message {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dice-container">
+        <h2>Player 1</h2>
+        <img id="dice1" class="dice" src="https://www.calculator.net/img/dice5.png" alt="Dice">
+        <button type="button" class="btn btn-success" onclick="playDice('dice1', 'result1')">Play</button>
+        <h1 id="result1" class="result"></h1>
+    </div>
+    <div class="dice-container">
+        <h2>Player 2</h2>
+        <img id="dice2" class="dice" src="https://www.calculator.net/img/dice5.png" alt="Dice">
+        <button type="button" class="btn btn-success" onclick="playDice('dice2', 'result2')">Play</button>
+        <h1 id="result2" class="result"></h1>
+    </div>
+    <div class="game-message" id="gameMessage"></div>
+    <script>
+        var num1 = 0;
+        var num2 = 0;
+        function playDice(diceId, resultId) {
+            if (num1 == 0 && resultId == "result2")
+            {
+                alert("it's impossible player 2 play before player 1 !");
+                return ;
+            }
+            document.getElementById('gameMessage').innerText = '';
+            let count = 0;
+            const rollInterval = setInterval(() => {
+                const randomNumber = Math.floor(Math.random() * 6) + 1;
+                const diceImage = `https://www.calculator.net/img/dice${randomNumber}.png`;
+                document.getElementById(diceId).src = diceImage;
+                count++;
+                if (count === 10) {
+                    clearInterval(rollInterval);
+                    const finalNumber = Math.floor(Math.random() * 6) + 1;
+                    const finalDiceImage = `https://www.calculator.net/img/dice${finalNumber}.png`;
+                    document.getElementById(diceId).src = finalDiceImage;
+                    document.getElementById(resultId).innerText = `You rolled a ${finalNumber}`;
+                    if(resultId == "result1")
+                        num1 = finalNumber;
+                    else
+                        num2 = finalNumber;
+                    displayGameMessage();
+                }
+            }, 100);
+        }
+
+        function displayGameMessage() {
+            console.log(num1);
+            console.log(num2);
+            if (num1 && num2)
+            {
+                if (num1 > num2)
+                    document.getElementById('gameMessage').innerText = 'Player 1 wins!';
+                else if(num1 < num2)
+                    document.getElementById('gameMessage').innerText = 'Player 2 wins!';
+                else
+                    document.getElementById('gameMessage').innerText = 'It\'s a tie!';
+                resetGame()
+            }
+        }
+        function resetGame()
+        {
+            document.getElementById('result1').innerText = '';
+            document.getElementById('result2').innerText = '';
+            num1 = 0;
+            num2 = 0;
+        }
+    </script>
+</body>
+</html>

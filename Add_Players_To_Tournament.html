@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Players To the Tournament </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="my-4">Add Player To the Tournament</h1>
+        <div class="form-group">
+            <select class="form-control" id="tournament"  onfocus="List_Tournament()">
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="player"  onfocus="List_Players()">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="Add_Player_To_Tournament()">Add Player To the Tournament</button>
+    </div>
+    <script>
+        const apiUrl = 'http://127.0.0.1:8000/Tournament/';
+        async function List_Tournament()
+        {
+            try {
+                const List_Tournament = "List_Tournament/";
+                const response = await fetch(`${apiUrl}${List_Tournament}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                const TournamentName = document.getElementById("tournament");
+                // Clear any existing options
+                TournamentName.innerHTML = '';
+                // Create options for each tournament
+                data.forEach(tournament => {
+                    const option = document.createElement('option');
+                    option.value = tournament.name; // Set the option value to the tournament ID
+                    option.text = tournament.name;
+                    TournamentName.appendChild(option);
+                })
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error of tournament list: ', error);
+            }
+        }
+    
+        async function List_Players()
+        {
+            try {
+                const List_Players = "List_Players/";
+                const response = await fetch(`${apiUrl}${List_Players}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+                const Player = document.getElementById("player");
+                Player.innerHTML = '';
+                data.forEach(player => {
+                    const option = document.createElement('option');
+                    option.value = player.name;
+                    option.text = player.name;
+                    Player.appendChild(option);
+                })
+            } catch(error) {
+                console.error('Error to list players: ', error);
+            }
+        }
+        
+        async function Add_Player_To_Tournament()
+        {
+            try {
+                const TournamentName = document.getElementById("tournament").value;
+                const PlayerName = document.getElementById("player").value;
+                const  Obj = {
+                    TournamentName: TournamentName,
+                    PlayerName: PlayerName
+                }
+                const Add_Players_To_Tournament = "Add_Player_To_Tournament/";
+                const response = await fetch(`${apiUrl}${Add_Players_To_Tournament}`, {
+                    method: 'POST',
+                    headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    body: JSON.stringify(Obj),
+                })
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error adding player to tournament: ', error);
+            }
+        }
+    </script>
+</body>
+<html></html>

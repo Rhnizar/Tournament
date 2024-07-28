@@ -1,81 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Tournament</title>
+    <title>Dice Tournament</title>
+    <style>
+        .player {
+            text-align: center;
+            margin: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+.dice {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin: 10px auto;
+}
+    </style>
 </head>
 <body>
-    <h1>Create Tournament</h1>
-    <form method="post" action="/create_tournament/">
-        <!-- {% csrf_token %} -->
-        <label for="name">Tournament Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date" required><br><br>
-        
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date" required><br><br>
-        
-        <label for="num_players">Number of Players:</label>
-        <select id="num_players" name="num_players" required>
-            <option value="4">4 Players</option>
-            <option value="8">8 Players</option>
-            <option value="16">16 Players</option>
-        </select><br><br>
-
-        <h2>Stages</h2>
-        
-        <div id="stages-container">
-            <!-- Stage template -->
-            <div class="stage">
-                <label>Stage Type:</label>
-                <select name="stages[0][stage_type]" required>
-                    <option value="ROUND_16">Round of 16</option>
-                    <option value="QUARTERFINALS">Quarterfinals</option>
-                    <option value="SEMIFINALS">Semifinals</option>
-                    <option value="FINAL">Final</option>
-                </select><br><br>
-
-                <label>Date:</label>
-                <input type="date" name="stages[0][date]" required><br><br>
-
-                <label>Ready to Play:</label>
-                <input type="checkbox" name="stages[0][ready_to_play]"><br><br>
-            </div>
-        </div>
-        
-        <button type="button" onclick="addStage()">Add Another Stage</button><br><br>
-
-        <button type="submit">Create Tournament</button>
-    </form>
-
+    <div class="player">
+        <h2>Player 1</h2>
+        <div class="dice" onclick="PlayGame()"></div>
+    </div>
+    <div class="player">
+        <h2>Player 2</h2>
+        <div class="dice" onclick="PlayGame()"></div>
+        <h2 id=""></h2>
+    </div>
+    <div id="tournament-results"></div>
+    <button onclick="startTournament()">Start Tournament</button>
+    <!-- <script src="script.js"></script> -->
     <script>
-        let stageCount = 1;
-
-        function addStage() {
-            const container = document.getElementById('stages-container');
-            const stageDiv = document.createElement('div');
-            stageDiv.classList.add('stage');
-            stageDiv.innerHTML = `
-                <label>Stage Type:</label>
-                <select name="stages[${stageCount}][stage_type]" required>
-                    <option value="ROUND_16">Round of 16</option>
-                    <option value="QUARTERFINALS">Quarterfinals</option>
-                    <option value="SEMIFINALS">Semifinals</option>
-                    <option value="FINAL">Final</option>
-                </select><br><br>
-
-                <label>Date:</label>
-                <input type="date" name="stages[${stageCount}][date]" required><br><br>
-
-                <label>Ready to Play:</label>
-                <input type="checkbox" name="stages[${stageCount}][ready_to_play]"><br><br>
-            `;
-            container.appendChild(stageDiv);
-            stageCount++;
+        function PlayGame() {
+            alert("HEeere");
         }
+        function rollDie() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+function Player(id) {
+    this.id = id;
+}
+
+function playMatch(player1, player2) {
+    let player1Roll, player2Roll;
+    do {
+        player1Roll = rollDie();
+        player2Roll = rollDie();
+
+        console.log(`Player ${player1.id} rolls: ${player1Roll}`);
+        console.log(`Player ${player2.id} rolls: ${player2Roll}`);
+
+        if (player1Roll > player2Roll) {
+            console.log(`Player ${player1.id} wins this match!`);
+            return player1;
+        } else if (player2Roll > player1Roll) {
+            console.log(`Player ${player2.id} wins this match!`);
+            return player2;
+        } else {
+            console.log("It's a tie! Rerolling...");
+        }
+    } while (player1Roll === player2Roll);
+}
+
+function playRound(players, stageName) {
+    console.log(`\n--- ${stageName} ---`);
+    let winners = [];
+    for (let i = 0; i < players.length; i += 2) {
+        let winner = playMatch(players[i], players[i + 1]);
+        winners.push(winner);
+    }
+    return winners;
+}
+
+function tournament(players) {
+    let numPlayers = players.length;
+    let resultsDiv = document.getElementById('tournament-results');
+
+    if (numPlayers === 4 || numPlayers === 8 || numPlayers === 16) {
+        if (numPlayers === 8) {
+            players = playRound(players, "Quarterfinals");
+        }
+        if (numPlayers >= 4) {
+            players = playRound(players, "Semifinals");
+            players = playRound(players, "Final");
+        }
+
+        resultsDiv.innerHTML += `\nPlayer ${players[0].id} wins the tournament!`;
+    } else {
+        console.log("Invalid number of players. Please enter 4, 8, or 16.");
+    }
+}
+
+function startTournament() {
+    // Replace with user input or other logic for number of players
+    let numPlayers = 8;
+
+    let players = [];
+    for (let i = 1; i <= numPlayers; i++) {
+        players.push(new Player(i));
+    }
+
+    tournament(players);
+}
+
     </script>
 </body>
 </html>

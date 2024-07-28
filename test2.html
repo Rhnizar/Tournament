@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .dice-container {
+            text-align: center;
+        }
+
+        #dice {
+            width: 100px;
+            cursor: pointer;
+        }
+
+        #result {
+            color: red;
+            /* font-size: 24px;
+            margin-top: 20px; */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="dice-container">
+        <img id="dice" src="https://www.calculator.net/img/dice5.png" alt="Dice">
+        <button type="submit" class="btn btn-success" onclick="Play()">Play</button>
+    </div>
+    <h1 id="result"></h1>
+
+    <div class="dice-container">
+        <img id="dice2" src="https://www.calculator.net/img/dice5.png" alt="Dice">
+        <button type="submit" class="btn btn-success" onclick="Play2()">Play</button>
+    </div>
+    <h1 id="result2"></h1>
+    <script>
+        function Play()
+        {
+            let count = 0;
+            const rollInterval = setInterval(() => {
+                const randomNumber = Math.floor(Math.random() * 6) + 1;
+                const diceImage = `https://www.calculator.net/img/dice${randomNumber}.png`;
+                document.getElementById('dice').src = diceImage;
+                count++;
+                if (count === 10) {  // Roll 10 times before showing the final result
+                    clearInterval(rollInterval);
+                    const finalNumber = Math.floor(Math.random() * 6) + 1;
+                    const finalDiceImage = `https://www.calculator.net/img/dice${finalNumber}.png`;
+                    document.getElementById('dice').src = finalDiceImage;
+                    document.getElementById('result').innerText = `${finalNumber}`;
+                }
+            }, 100);
+        }
+    
+        function Play2()
+        {
+            let count = 0;
+            const rollInterval = setInterval(() => {
+                const randomNumber = Math.floor(Math.random() * 6) + 1;
+                const diceImage = `https://www.calculator.net/img/dice${randomNumber}.png`;
+                document.getElementById('dice2').src = diceImage;
+                count++;
+                if (count === 10) {  // Roll 10 times before showing the final result
+                    clearInterval(rollInterval);
+                    const finalNumber = Math.floor(Math.random() * 6) + 1;
+                    const finalDiceImage = `https://www.calculator.net/img/dice${finalNumber}.png`;
+                    document.getElementById('dice2').src = finalDiceImage;
+                    document.getElementById('result2').innerText = `${finalNumber}`;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
