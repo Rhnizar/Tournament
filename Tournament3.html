@@ -38,6 +38,13 @@
 
             <button type="submit" class="btn btn-primary" onclick="Create_Tournament()">Create Tournament</button>
             <button type="submit" class="btn btn-primary" onclick="List_Tournament()">List Tournament</button>
+            <button type="submit" class="btn btn-primary" onclick="get_Available_Tournaments()">get Available Tournaments</button>
+
+            <button type="submit" class="btn btn-primary" onclick="get_tournament_by_id()">get tournament by id</button>
+            <button type="submit" class="btn btn-primary" onclick="get_tournaments_by_player_id()">get tournament by player id</button>
+
+            
+
         <!-- </form> -->
     </div>
     <script>
@@ -61,10 +68,10 @@
             });
         }
 
-        const apiUrl = 'http://127.0.0.1:8000/Tournament/';
+        const apiUrl = 'http://127.0.0.1:8000/tournament/';
         async function List_Tournament() {
             try {
-                const List_Tournament = "List_Tournament/";
+                const List_Tournament = "List_Tournaments/";
                 const response = await fetch(`${apiUrl}${List_Tournament}`);
                 if (!response.ok) {
                     throw new Error(`${response.status}  ${response.statusText}`);
@@ -75,8 +82,48 @@
                 console.error('Error of tournament list: ', error);
             }
         }
-
-        async function Create_Tournament() {
+        // async function Create_Tournament() {
+        //     try {
+        //         const name = document.getElementById("name").value;
+        //         const start_date = document.getElementById("start_date").value;
+        //         const end_date = document.getElementById("end_date").value;
+        //         const num_players = document.getElementById("num_players").value;
+        //         const Stages = [];
+        //         stages.forEach((stage) => {
+        //             const Stage = {
+        //                 stage_type: stage,
+        //                 date: document.getElementById(stage).value
+        //             }
+        //             Stages.push(Stage);
+        //         });
+        //         const Tournament = {
+        //             name: name,
+        //             start_date: start_date,
+        //             end_date: end_date,
+        //             num_players: num_players,
+        //             stages: Stages
+        //         }
+        //         const create_tournament = "create_tournament/"
+        //         const response = await fetch(`${apiUrl}${create_tournament}`, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(Tournament),
+        //         });
+        //         if (!response.ok) {
+        //             throw new Error(`${response.status}  ${response.statusText}`);
+        //         }
+        //         const data = await response.json();
+        //         console.log(JSON.stringify(data, null, 2));
+        //     } catch(error) {
+        //         console.error('Error creating Tournament: ', error);
+        //     } 
+        // }
+    
+        
+        async function Create_Tournament()
+        {
             try {
                 const name = document.getElementById("name").value;
                 const start_date = document.getElementById("start_date").value;
@@ -86,19 +133,19 @@
                 stages.forEach((stage) => {
                     const Stage = {
                         stage_type: stage,
-                        date: document.getElementById(stage).value
+                        stage_datetime: document.getElementById(stage).value
                     }
                     Stages.push(Stage);
                 });
 
                 const Tournament = {
-                    name: name,
-                    start_date: start_date,
-                    end_date: end_date,
-                    num_players: num_players,
+                    tournament_name: name,
+                    start_datetime: start_date,
+                    end_datetime: end_date,
+                    number_of_players: num_players,
                     stages: Stages
                 }
-                const create_tournament = "create_tournament/"
+                const create_tournament = "create/"
                 const response = await fetch(`${apiUrl}${create_tournament}`, {
                     method: 'POST',
                     headers: {
@@ -111,9 +158,53 @@
                 }
                 const data = await response.json();
                 console.log(JSON.stringify(data, null, 2));
+                // console.log(JSON.stringify(Tournament, null, 2));
             } catch(error) {
                 console.error('Error creating Tournament: ', error);
             } 
+        }
+    
+        async function get_tournament_by_id() {
+            try {
+                const id = "5";
+                const response = await fetch(`${apiUrl}${id}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error of tournament list: ', error);
+            }
+        }
+    
+        async function get_tournaments_by_player_id() {
+            try {
+                const player = "player/"
+                const playerId = "2";
+                const response = await fetch(`${apiUrl}${player}${playerId}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error of tournament list: ', error);
+            }
+        }
+
+        async function get_Available_Tournaments() {
+            try {
+                const Available_Tournaments = "Available_Tournaments/";
+                const response = await fetch(`${apiUrl}${Available_Tournaments}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                console.error('Error of tournament list: ', error);
+            }
         }
     </script>
 </body>
