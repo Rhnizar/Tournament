@@ -121,7 +121,16 @@
         //     } 
         // }
     
-        
+        function calTimeAndSendNotification()
+        {
+            time = current_time();
+
+            if (current_time() - time == 20)
+                sendNotification()
+            else if (current_time() - time == 30)
+                startGame()
+        }
+
         async function Create_Tournament()
         {
             try {
@@ -161,7 +170,8 @@
                 // console.log(JSON.stringify(Tournament, null, 2));
             } catch(error) {
                 console.error('Error creating Tournament: ', error);
-            } 
+            }
+            calTimeAndSendNotification();
         }
     
         async function get_tournament_by_id() {
