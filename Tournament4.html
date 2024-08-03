@@ -25,7 +25,6 @@
                 <button type="submit" class="btn btn-primary" onclick="Create_Tournament()">Create Tournament</button>
                 <button type="submit" class="btn btn-primary" onclick="List_Tournament()">List Tournament</button>
                 <button type="submit" class="btn btn-primary" onclick="get_Available_Tournaments()">get Available Tournaments</button>
-
                 <button type="submit" class="btn btn-primary" onclick="get_tournament_by_id()">get tournament by id</button>
                 <button type="submit" class="btn btn-primary" onclick="get_tournaments_by_player_id()">get tournament by player id</button>
             </div>
@@ -78,7 +77,7 @@
     
         async function get_tournament_by_id() {
             try {
-                const id = "3";
+                const id = "3/";
                 const response = await fetch(`${apiUrl}${id}`);
                 if (!response.ok) {
                     throw new Error(`${response.status}  ${response.statusText}`);
@@ -93,7 +92,7 @@
         async function get_tournaments_by_player_id() {
             try {
                 const player = "player/"
-                const playerId = "1";
+                const playerId = "1/";
                 const response = await fetch(`${apiUrl}${player}${playerId}`);
                 if (!response.ok) {
                     throw new Error(`${response.status}  ${response.statusText}`);
@@ -116,6 +115,22 @@
                 console.log(JSON.stringify(data, null, 2));
             } catch(error) {
                 console.error('Error of tournament list: ', error);
+            }
+        }
+        async function player_join_tournament()
+        {
+            try {
+                const tournamentId = "1/";
+                const playerId = "1/";
+                const response = await fetch(`${apiUrl}tournamet/${tournamentId}player/${playerId}`);
+                if (!response.ok) {
+                    throw new Error(`${response.status}  ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(JSON.stringify(data, null, 2));
+            } catch(error) {
+                
+                console.error('Error of player join tournament: ', error);
             }
         }
     </script>
